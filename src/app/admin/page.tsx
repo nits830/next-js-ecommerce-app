@@ -3,7 +3,7 @@ import prisma from "@/db/db"
 import { formatCurrency, formatNumber } from "@/lib/formatter";
 
 
-
+export const dynamic = "forced-dynamic"
 
 async function getSalesData(){
     const data = await prisma.order.aggregate({
