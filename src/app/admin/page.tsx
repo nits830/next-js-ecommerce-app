@@ -41,18 +41,20 @@ async function getProductData(){
 
 export default async function AdminDashBoard(){
 
-    const salesData = await getSalesData();
-
-
-    
-
-
+    const [salesData, userData, productData] = await Promise.all([
+        getSalesData(),
+        getUserData(),
+        getProductData()
+    ])
 
     return (
 
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"> 
-        <DashboardCard title = "Sales" subtitle={formatCurrency(salesData.numberOfSales)} body={formatNumber(salesData.amount)}/>
-    </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"> 
+            <DashboardCard title = "Sales" subtitle={formatCurrency(salesData.numberOfSales)} body={formatNumber(salesData.amount)}/>
+            <DashboardCard title = "Customers" subtitle={formatNumber(userData.userCount)} body={formatNumber(userData.averageValuePerUser)}/>
+            <DashboardCard title = "Products" subtitle={formatNumber(productData.activeProducts)} body={formatNumber(productData.inActiveProducts)}/>
+        </div>
+
     )
 }
 

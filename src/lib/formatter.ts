@@ -11,11 +11,9 @@ export function formatNumber(number: number): string {
     /\B(?=(\d{3})+(?!\d))/g,
     ","
   );
-  const formattedNumber = decimalPart
-    ? `${formattedIntegerPart}.${decimalPart}`
-    : formattedIntegerPart;
+  
 
-  return formattedNumber;
+  return formattedIntegerPart;
 }
 
 
