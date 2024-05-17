@@ -17,6 +17,27 @@ async function getSalesData(){
     }
 }
 
+async function getUserData(){
+    const [userCount, orderData] = await Promise.all([
+        prisma.user.count(),
+        prisma.order.aggregate({
+            _sum: {pricePaidInCents:true}
+        })
+    ])
+    return {
+        userCount,
+        averageValuePerUser : userCount === 0 ? 0 : (orderData._sum.pricePaidInCents || 0)/userCount
+    }
+}
+
+async function getProductData(){
+     const [activeProducts, inActiveProducts] = await Promise.all([
+        prisma.product.count({where: {isAvailableForPurchage:true}}),
+        prisma.product.count({where : {isAvailableForPurchage:false}})
+     ])
+
+     return {activeProducts, inActiveProducts}
+}
 
 export default async function AdminDashBoard(){
 
